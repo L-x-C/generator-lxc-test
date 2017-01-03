@@ -1,63 +1,32 @@
-# 乔布简历管理后台
+## react-webpack-mobx
 
-## How to use
+> `@decorators`(装饰器)目前在`ES2015`中是无法直接使用的，需要`babel-plugin-transform-decorators-legacy`插件来进行转换
+>
+> 同时需要在`.babelrc`中进行配置(`"plugins": ["transform-decorators-legacy"]`)。
 
-```
-git clone git@github.com:QiaoBuTang/admin.git
-cd admin
-npm install
-```
+> 在`react`中绑定`onClick`等事件时经常需要像这样`onClick={this.submit.bind(this)}`这样将`this`进行手动绑定，这里使用`autobind-decorator`来做简化:
 
-## Dev (client-side rendering)
+##### 例子
 
-```
-npm start -s (-s is optional，will neglect unimportant message)
-open http://localhost:3002
-```
+```javascript
+import React, {Component} from 'react';
+import {observer} from 'mobx-react';
+import autobind from 'autobind-decorator';
 
-## Production (server-side rendering)
-```
-npm run server
+@observer
+export default class Todos extends Component {
 
-open http://localhost:20002
-```
-it equals to
-```
-npm run build
-npm run production
+    @autobind
+    onPress(event){
+        console.info(event.target.value);
+    }
 
-open http://localhost:20002
-```
-
-## F.A.Q
-## How to fetch data on the server side?
-
-Adding a `onEnter` function to a component, if you want to fetch another data after fetch the first, you should use `Promise`
-
-```
-@action
-static onEnter({states, query, params}) {
-    return Promise.all([
-      menuActions.changeMenuTitle(states, 'serverTitle'),
-      studentActions.fetchName(states),
-      studentActions.fetchName2(states)
-    ]).then(values => {
-      //do something
-    });
-}
-```
-
-## How to redirect on the server side?
-
-In `src/helpers/location.js`, there is a `redirect` function, you can just import it and use.
-The `catchErr` in `src/serverRender.js` will catch the redirect command and redirect as you wish.
-It works on both server and client side.
-
-```
-import {redirect} from './helpers/location';
-
-@action
-static onEnter({states, query, params}) {
-    redirect('http://www.xxx.com');
+    render(){
+        return (
+            <div className="todo-container">
+                <input type="text" placeholder="Please input" onKeyPress={this.onPress}/>
+            </div>
+        )
+    }
 }
 ```
