@@ -1,0 +1,30 @@
+.admin-table {
+  margin-top: 15px;
+}
+.enumeration-form {
+  .enumeration-value__input {
+    width: 80%;
+    display: inline;
+  }
+  .enumeration-value__icon {
+    margin-left: 15px;
+    cursor: pointer;
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.5;
+      &:hover {
+        color: #666;
+      }
+    }
+    &:hover {
+      color: #1eb6f8;
+    }
+  }
+  .enumeration-value__plus {
+    cursor: pointer;
+  }
+  .form_hidden {
+    display: none;
+  }
+}
+
